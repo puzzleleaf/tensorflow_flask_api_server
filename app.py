@@ -17,9 +17,9 @@ def convert():
     return base64.b64encode(cartoon_img_data), 200
 
 @app.route("/")
-def helloWorld():
-    return "hello world"
+def index():
+    return "<h1>Welcome to puzzleleaf ml server !!</h1>"
 
 if __name__ == "__main__":
     WSGIRequestHandler.protocol_version = "HTTP/1.1"
-    app.run(debug=False,host='0.0.0.0',port=5000)
+    app.run(threaded=True, port=5000)
