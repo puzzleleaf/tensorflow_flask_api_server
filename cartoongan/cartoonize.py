@@ -51,8 +51,10 @@ def cartoonize2(image_buffer, model_path):
         output = np.clip(output, 0, 255).astype(np.uint8)
         # print(output)
         # cv2.imwrite(save_path, output)
+        tf.reset_default_graph()
         return output
     except ValueError:
+        tf.reset_default_graph()
         print('cartoonize {} failed'.format(ValueError))
     
 
