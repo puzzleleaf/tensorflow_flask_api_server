@@ -4,7 +4,7 @@ import tensorflow.contrib.slim as slim
 
 def resblock(inputs, out_channel=32, name='resblock'):
     
-    with tf.variable_scope(name, reuse=reuse):
+    with tf.variable_scope(name, reuse=True):
         
         x = slim.convolution2d(inputs, out_channel, [3, 3], 
                                activation_fn=None, scope='conv1')
@@ -15,8 +15,8 @@ def resblock(inputs, out_channel=32, name='resblock'):
         tf.reset_default_graph()
         return x + inputs
 
-def unet_generator(inputs, channel=32, num_blocks=4, name='generator', reuse=False):
-    with tf.variable_scope(name, reuse=reuse):
+def unet_generator(inputs, channel=32, num_blocks=4, name='generator'):
+    with tf.variable_scope(name, reuse=True):
         
         x0 = slim.convolution2d(inputs, channel, [7, 7], activation_fn=None)
         x0 = tf.nn.leaky_relu(x0)
