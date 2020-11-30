@@ -2,7 +2,6 @@ import tensorflow as tf
 import numpy as np
 
 def tf_box_filter(x, r):
-    tf.reset_default_graph()
     k_size = int(2*r+1)
     ch = x.get_shape().as_list()[-1]
     weight = 1/(k_size**2)
@@ -12,7 +11,6 @@ def tf_box_filter(x, r):
     return output
 
 def guided_filter(x, y, r, eps=1e-2):
-    tf.reset_default_graph()
     x_shape = tf.shape(x)
     #y_shape = tf.shape(y)
 
@@ -33,7 +31,6 @@ def guided_filter(x, y, r, eps=1e-2):
     return output
 
 def fast_guided_filter(lr_x, lr_y, hr_x, r=1, eps=1e-8):
-    tf.reset_default_graph()
     #assert lr_x.shape.ndims == 4 and lr_y.shape.ndims == 4 and hr_x.shape.ndims == 4
    
     lr_x_shape = tf.shape(lr_x)
