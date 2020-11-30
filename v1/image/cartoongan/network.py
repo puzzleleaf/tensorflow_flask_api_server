@@ -4,7 +4,7 @@ import tensorflow.contrib.slim as slim
 
 def resblock(inputs, out_channel=32, name='resblock'):
     
-    with tf.variable_scope(name):
+    with tf.variable_scope(name, reuse=reuse):
         
         x = slim.convolution2d(inputs, out_channel, [3, 3], 
                                activation_fn=None, scope='conv1')
