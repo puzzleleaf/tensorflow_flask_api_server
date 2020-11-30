@@ -2,17 +2,17 @@ import tensorflow as tf
 import numpy as np
 
 def tf_box_filter(x, r):
+    tf.reset_default_graph()
     k_size = int(2*r+1)
     ch = x.get_shape().as_list()[-1]
     weight = 1/(k_size**2)
     box_kernel = weight*np.ones((k_size, k_size, ch, 1))
     box_kernel = np.array(box_kernel).astype(np.float32)
     output = tf.nn.depthwise_conv2d(x, box_kernel, [1, 1, 1, 1], 'SAME')
-    tf.reset_default_graph()
     return output
 
 def guided_filter(x, y, r, eps=1e-2):
-    
+    tf.reset_default_graph()
     x_shape = tf.shape(x)
     #y_shape = tf.shape(y)
 
@@ -30,11 +30,10 @@ def guided_filter(x, y, r, eps=1e-2):
     mean_b = tf_box_filter(b, r) / N
 
     output = mean_A * x + mean_b
-    tf.reset_default_graph()
     return output
 
 def fast_guided_filter(lr_x, lr_y, hr_x, r=1, eps=1e-8):
-    
+    tf.reset_default_graph()
     #assert lr_x.shape.ndims == 4 and lr_y.shape.ndims == 4 and hr_x.shape.ndims == 4
    
     lr_x_shape = tf.shape(lr_x)
@@ -55,5 +54,4 @@ def fast_guided_filter(lr_x, lr_y, hr_x, r=1, eps=1e-8):
     mean_b = tf.image.resize_images(b, hr_x_shape[1: 3])
 
     output = mean_A * hr_x + mean_b
-    tf.reset_default_graph()
     return output

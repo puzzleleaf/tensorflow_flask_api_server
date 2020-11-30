@@ -26,6 +26,7 @@ def resize_crop(image):
     return image
 
 def cartoonize(image_buffer, model_path):
+    tf.reset_default_graph()
     input_photo = tf.placeholder(tf.float32, [1, None, None, 3])
     network_out = network.unet_generator(input_photo)
     final_out = guided_filter.guided_filter(input_photo, network_out, r=1, eps=5e-3)
@@ -51,10 +52,8 @@ def cartoonize(image_buffer, model_path):
         output = np.clip(output, 0, 255).astype(np.uint8)
         _, img_encoded = cv2.imencode('.jpg', output)
 
-        tf.reset_default_graph()
         return img_encoded.tostring()
     except ValueError:
-        tf.reset_default_graph()
         print('cartoonize {} failed'.format(ValueError))
     
     
